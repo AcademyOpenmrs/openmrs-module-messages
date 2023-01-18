@@ -26,6 +26,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import static java.util.Objects.requireNonNull;
@@ -274,14 +275,13 @@ public final class DateUtil {
    * @throws IllegalArgumentException if {@code timeOfDay} has illegal value
    */
   public static Date getDateWithTimeOfDay(Date date, String timeOfDay, TimeZone timeZone) {
-    final SimpleDateFormat timeFormat = new SimpleDateFormat(HOUR_AND_MINUTE_PATTERN);
+    final SimpleDateFormat timeFormat = new SimpleDateFormat(HOUR_AND_MINUTE_PATTERN,Locale.FRANCE);
     timeFormat.setTimeZone(timeZone);
 
     try {
       final Calendar timePart =
           org.apache.commons.lang3.time.DateUtils.toCalendar(timeFormat.parse(timeOfDay));
       timePart.setTimeZone(timeZone);
-
       final Calendar result = org.apache.commons.lang3.time.DateUtils.toCalendar(date);
       result.setTimeZone(timeZone);
       result.set(Calendar.HOUR_OF_DAY, timePart.get(Calendar.HOUR_OF_DAY));
